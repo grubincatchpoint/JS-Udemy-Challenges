@@ -258,3 +258,58 @@ c) correct answer (I would use a number for this)
 6.  Check if the answer is correct and print to the console whether the answer is correct or not (Hint: write another method for this)
 
 7. Suppose this code would be a plugin for other programmers to use in their code.  Make sure that all your code is private and doesn;t interfere with the other programmers code (Hint: we learned a special technique to do exactly that).
+
+EXPERT MODE
+8.  After the result is displayed, present thenext random question so the game never ends
+*/
+
+
+(function(){
+  var Question = function(question, options, answer, wrongAnswer, rightAnswer) {
+    this.question = question;
+    this.options = options;
+    this.answer = answer;
+    this.wrongAnswer = wrongAnswer;
+    this.rightAnswer = rightAnswer;
+    };
+
+
+Question.prototype.displayQuestion = function() {
+      console.log(this.question);
+      for (var i = 0; i < this.options.length; i++) {
+      console.log(this.options[i]);
+      }
+      var opinion = prompt(this.question);
+      if (opinion == this.answer) {
+        console.log(this.rightAnswer);
+        nextQuestion();
+      } else  if (opinion === 'exit') {
+        console.log('Thank you for playing!');
+        } else {
+        console.log(this.wrongAnswer);
+        nextQuestion();
+      }
+};
+
+var question1 = new Question('Did this work?', ['0:yes', '1:no'], 0, 'You lied! This did work!', 'YAY! WE DID IT!');
+
+var question2 = new Question('Who wrote this function constructor?', ['0: Jackie', '1: Mitch',
+'2: Greg'], 2, 'Come on! Give credit where credit is due!', 'You are right! He is a great learner!');
+
+var question3 = new Question('Do you think this was easy to make?', ['0:yes', '1:no'], 1, 'Obviously you do not know me very well.', 'Thank you for understanding what I went through!');
+
+
+function nextQuestion() {
+  var questionBank = [question1, question2, question3];
+
+questionBank.displayQuestion = function(){
+  var questionNumber = Math.floor(Math.random() * questionBank.length);
+  this[questionNumber].displayQuestion();
+};
+questionBank.displayQuestion();
+nextQuestion();
+}
+nextQuestion();
+})();
+
+
